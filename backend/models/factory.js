@@ -6,7 +6,19 @@ const FactorySchema = new schema({
     type: String,
     required: true
   },
-  numbers: [Number]
+  minRange: {
+    type: Number,
+    required: true
+  },
+  maxRange: {
+    type: Number,
+    required: true
+  },
+  range: {
+    type: Number,
+    required: true
+  },
+  children: [Number]
 })
 
 const Factory = mongoose.model('factory', FactorySchema)
