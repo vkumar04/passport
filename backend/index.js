@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 const mongoose = require('mongoose')
 const routes = require('./routes/api')
 const bodyParser = require('body-parser')
@@ -6,6 +7,7 @@ const morgan = require('morgan')
 const db = require('./config/db')
 
 const app = express()
+app.use(cors())
 //connect to mlab url
 mongoose.connect(db.mongoURI)
 //convert body to json
