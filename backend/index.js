@@ -23,8 +23,8 @@ app.use((err, req, res, next) => {
     .send({error: err.message})
 })
 //port 3000
-const port = process.env.port || 3000
+const port = process.env.port || 5000
 
 app.listen(port, (req, res) => {
-  console.log(`server running on https://localhost:${port}`)
+  console.log(`server running on http://localhost:${port}`)
 })
