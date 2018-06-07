@@ -12,6 +12,8 @@ app.use(cors())
 mongoose.connect(db.mongoURI)
 //convert body to json
 app.use(bodyParser.json())
+//url encoded
+app.use(bodyParser.urlencoded({ extended: false}));
 //morgan
 app.use(morgan('dev'))
 //use routes with /api
