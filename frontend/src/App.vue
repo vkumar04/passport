@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <h1>Passport Challenge</h1>
     <ul v-for="(data, i) in api_data" :key="data._id">
       <li>
         <button @click="deleteFactory(data._id, i)">delete</button>
@@ -49,6 +48,9 @@ export default {
     }
   },
   methods: {
+    createChildren(max, min, range){
+      
+    },
     getData(){
       axios.get(this.api_url)
         .then((res) => {
@@ -67,13 +69,13 @@ export default {
       })
     },
     createFactory(){
+      this.formData.children = Array.from({length: this.formData.range}, () => Math.floor(Math.random() * (this.formData.maxRange - this.formData.minRange + 1) + this.formData.minRange));
+      
       axios({
         method: 'post',
         url: this.api_url,
         data: this.formData
       }).then(res => {
-        console.log(res)
-        console.log(this.api_data)
         this.api_data.push(res.data)
       })
     }
