@@ -52,7 +52,7 @@ export default {
       console.log(this.formData)
       let max = parseInt(this.formData.maxRange)
       let min = parseInt(this.formData.minRange)
-      let range = parseInt(this.formData.range)
+      let range = this.formData.range
 
       for(let i = 0; i < range; i++){
         let num = Math.floor(Math.random() * (max - min) + min)
