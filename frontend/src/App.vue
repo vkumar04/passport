@@ -14,7 +14,7 @@
     </ul>
     <div>
       <h2>Add Factory</h2>
-      <form action="postp">
+      <form>
         <label for="name">Name:</label>
         <input type="text" name="Name" v-model="formData.name">
         <label for="minRange">Min Range:</label>
