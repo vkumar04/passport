@@ -1,9 +1,25 @@
 <template>
   <div id="app">
     <ul v-for="(data, i) in api_data" :key="data._id">
-      <li>
-        <button @click="deleteFactory(data._id, i)">delete</button>
-        {{data.name}}, ({{data.minRange}}:{{data.maxRange}})
+      <div v-if="editFactory === data._id">
+        <form>
+          <label for="name">Name:</label>
+          <input type="text" name="Name" v-model="data.name">
+          <label for="minRange">Min Range:</label>
+          <input type="text" name="minRange" v-model="data.minRange">
+          <label for="maxRange">Max Range:</label>
+          <input type="text" name="maxRange" v-model="data.maxRange">
+          <label for="range">Child Count:</label>
+          <input type="text" name="range" v-model="data.range">
+          <button @click.prevent="updateFactory(data)">update</button>
+          <button @click.prevent="editFactory = null">cancel</button>
+        </form>
+      </div>
+      <div v-else>
+        <li>
+          <button @click="editFactory = data._id">edit</button>
+          <button @click="deleteFactory(data._id, i)">delete</button>
+          {{data.name}}, ({{data.minRange}}:{{data.maxRange}})
       </li>
       <br>
       <li>
@@ -11,6 +27,7 @@
           <li>{{child}}</li>
         </ul>
       </li>
+      </div>
     </ul>
     <div>
       <h2>Add Factory</h2>
@@ -38,6 +55,7 @@ export default {
     return {
       api_url: 'http://localhost:5000/api/',
       api_data: [],
+      editFactory: null,
       formData: {
         name: '',
         maxRange: 0,
@@ -75,6 +93,11 @@ export default {
           console.log('deleted', id)
           this.api_data.splice(i, 1)
       })
+    },
+    updateFactory(data){
+      console.log(data)
+      axios.put(this.api_url + data._id)
+      .then(res => this.editFactory = null)
     },
     createFactory(){
       this.createChildren()
