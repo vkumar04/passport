@@ -3,7 +3,7 @@
     <h1>Passport Challenge</h1>
     <div class="container">
       <div id="tree">
-      <p>Root</p>
+      <p id="root">Root</p>
       <ul v-for="(data, i) in api_data" :key="data._id">
       <div v-if="editFactory === data._id">
         <form id="editForm">
@@ -20,15 +20,16 @@
         </form>
       </div>
       <div v-else>
-        <li>
-          {{data.name}}, ({{data.minRange}}:{{data.maxRange}})
+        <li class="factory">
+          <span>
+            {{data.name}} 
           <i class="far fa-edit fa-lg" @click="editFactory = data._id"></i>
-          <i class="far fa-trash-alt fa-lg" @click="deleteFactory(data._id, i)"></i> 
+          <i class="far fa-trash-alt fa-lg" @click="deleteFactory(data._id, i)"></i>
+           </span> 
+          ({{data.minRange}}:{{data.maxRange}})
       </li>
-      <li>
-        <ul v-for="(child, i) in data.children" :key="i">
-          <li>{{child}}</li>
-        </ul>
+      <li class="children" v-for="(child, i) in data.children" :key="i">
+        {{child}}
       </li>
       </div>
     </ul>
@@ -134,27 +135,62 @@ h1, h2{
   font-weight: bold;
   letter-spacing: 2px;
   text-align: center;
-  }
+}
 
+i{
+  cursor: pointer;
+}
+
+li{
+  list-style-type: none;
+}
+
+h1{
+  margin-bottom: 10px;
+}
 #app{
   max-width: 1200px;
-  margin: 25px;
+  margin: 25px auto;
   
   .container{
     display: flex;
+    height: 80vh;
 
     #tree{
-      background: pink;
       padding: 20px;
       width: 50%;
       height: 80vh;
       overflow: scroll;
+      font-family: 'Roboto', sans-serif;
+
+      #root{
+        background: #05668D;
+        padding: 6px;
+        margin-bottom: 4px;
+        color: #fff;
+        font-family: 'Oswald', sans-serif;
+        font-weight: bold;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+      }
+
+      .factory{
+        margin: 16px 0 16px 16px;
+        display: flex;
+        justify-content: space-between;
+        background: #00A896;
+        padding: 12px;
+        color: #fff;
+      }
+      .children{
+        margin-left: 30px;
+      }
     }
 
     #form{
       background: lightblue;
       width: 50%;
-      height: 8vh;
+      height: 80vh
     }
   }
 }
