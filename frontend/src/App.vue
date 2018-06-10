@@ -1,8 +1,12 @@
 <template>
   <div id="app">
-    <ul v-for="(data, i) in api_data" :key="data._id">
+    <h1>Passport Challenge</h1>
+    <div class="container">
+      <div id="tree">
+      <p>Root</p>
+      <ul v-for="(data, i) in api_data" :key="data._id">
       <div v-if="editFactory === data._id">
-        <form>
+        <form id="editForm">
           <label for="name">Name:</label>
           <input type="text" name="Name" v-model="data.name">
           <label for="minRange">Min Range:</label>
@@ -17,11 +21,10 @@
       </div>
       <div v-else>
         <li>
-          <button @click="editFactory = data._id">edit</button>
-          <button @click="deleteFactory(data._id, i)">delete</button>
           {{data.name}}, ({{data.minRange}}:{{data.maxRange}})
+          <i class="far fa-edit fa-lg" @click="editFactory = data._id"></i>
+          <i class="far fa-trash-alt fa-lg" @click="deleteFactory(data._id, i)"></i> 
       </li>
-      <br>
       <li>
         <ul v-for="(child, i) in data.children" :key="i">
           <li>{{child}}</li>
@@ -29,7 +32,8 @@
       </li>
       </div>
     </ul>
-    <div>
+    </div>
+    <div id="form">
       <h2>Add Factory</h2>
       <form>
         <label for="name">Name:</label>
@@ -42,6 +46,7 @@
         <input type="text" name="range" v-model="formData.range">
         <button @click.prevent="createFactory">submit</button>
       </form>
+    </div>
     </div>
   </div>
 </template>
@@ -118,30 +123,39 @@ export default {
 </script>
 
 <style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
+*{
+  margin: 0;
   padding: 0;
 }
 
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
+h1, h2{
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-align: center;
+  }
 
-a {
-  color: #42b983;
+#app{
+  max-width: 1200px;
+  margin: 25px;
+  
+  .container{
+    display: flex;
+
+    #tree{
+      background: pink;
+      padding: 20px;
+      width: 50%;
+      height: 80vh;
+      overflow: scroll;
+    }
+
+    #form{
+      background: lightblue;
+      width: 50%;
+      height: 8vh;
+    }
+  }
 }
 </style>
