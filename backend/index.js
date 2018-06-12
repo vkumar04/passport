@@ -5,9 +5,14 @@ const routes = require('./routes/api')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const db = require('./config/db')
+const helmet = require('helmet')
 
 const app = express()
+
 app.use(cors())
+
+app.use(helmet())
+
 //connect to mlab url
 mongoose.connect(db.mongoURI)
 //convert body to json
