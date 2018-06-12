@@ -72,10 +72,10 @@ export default {
     }
   },
   methods: {
-    createChildren(max, min, range){
+    createChildren(max, min, range, children){
       for(let i = 0; i < range; i++){
         let num = Math.floor(Math.random() * (parseInt(max) - parseInt(min)) + parseInt(min))
-        this.formData.children[i] = num
+        children[i] = num
       }
     },
     getData(){
@@ -96,13 +96,13 @@ export default {
       })
     },
     updateFactory(data){
-      this.createChildren(this.data.maxRange, this.data.minRange, this.data.range)
+      this.createChildren(data.maxRange, data.minRange, data.range, data.children)
       console.log(data)
       axios.put(this.api_url + data._id)
       .then(res => this.editFactory = null)
     },
     createFactory(){
-      this.createChildren(this.formData.maxRange, this.formData.minRange, this.formData.range)
+      this.createChildren(this.formData.maxRange, this.formData.minRange, this.formData.range, this.formData.children)
       console.log(this.data)
       axios({
         method: 'post',
