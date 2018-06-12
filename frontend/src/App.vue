@@ -39,7 +39,7 @@
         <label for="maxRange">Max Range:</label>
         <input type="text" name="maxRange" v-model="formData.maxRange">
         <label for="range">Child Count:</label>
-        <input type="text" name="range" v-model="formData.range">
+        <input type="number" name="range" min="1" max="15" v-model="formData.range">
         <button @click.prevent="createFactory">submit</button>
       </form>
     </div>
@@ -70,7 +70,7 @@ export default {
       console.log(this.formData)
       let max = parseInt(this.formData.maxRange)
       let min = parseInt(this.formData.minRange)
-      let range = this.formData.range
+      let range = toString(this.formData.range)
 
       for(let i = 0; i < range; i++){
         let num = Math.floor(Math.random() * (max - min) + min)
