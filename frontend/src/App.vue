@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1>Passport Challenge</h1>
+    <!-- <h1>Passport Challenge</h1> -->
     <div class="container">
       <div id="tree">
       <p id="root">Root</p>
@@ -44,7 +44,7 @@
         <label for="maxRange">Max Range:</label>
         <input type="text" name="maxRange" v-model="formData.maxRange">
         <label for="range">Child Count:</label>
-        <input type="number" name="range" min="1" max="15" v-model="formData.range">
+        <input type="text" name="range" v-model="formData.range">
         <button @click.prevent="createFactory">submit</button>
       </form>
     </div>
@@ -72,14 +72,9 @@ export default {
     }
   },
   methods: {
-    createChildren(){
-      console.log(this.formData)
-      let max = parseInt(this.formData.maxRange)
-      let min = parseInt(this.formData.minRange)
-      let range = toString(this.formData.range)
-
+    createChildren(max, min, range){
       for(let i = 0; i < range; i++){
-        let num = Math.floor(Math.random() * (max - min) + min)
+        let num = Math.floor(Math.random() * (parseInt(max) - parseInt(min)) + parseInt(min))
         this.formData.children[i] = num
       }
     },
@@ -101,12 +96,13 @@ export default {
       })
     },
     updateFactory(data){
+      this.createChildren(this.data.maxRange, this.data.minRange, this.data.range)
       console.log(data)
       axios.put(this.api_url + data._id)
       .then(res => this.editFactory = null)
     },
     createFactory(){
-      this.createChildren()
+      this.createChildren(this.formData.maxRange, this.formData.minRange, this.formData.range)
       console.log(this.data)
       axios({
         method: 'post',
@@ -160,8 +156,9 @@ h1{
       padding: 20px;
       width: 50%;
       height: 80vh;
-      overflow: scroll;
+      overflow-y: scroll;
       font-family: 'Roboto', sans-serif;
+      
 
       #root{
         background: #05668D;
