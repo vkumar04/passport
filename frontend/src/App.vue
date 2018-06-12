@@ -99,10 +99,15 @@ export default {
       this.createChildren(data.maxRange, data.minRange, data.range, data.children)
       console.log(data)
       axios({
-
-        method: 'put',
+        method: 'patch',
         url: this.api_url + data._id,
-        data: data
+        data: {
+          name: data.name,
+          maxRange: data.maxRange,
+          minRange: data.minRange,
+          range: data.range,
+          children: data.children
+        }
       }).then(res => {this.editFactory = null; console.log(res)})
     },
     createFactory(){

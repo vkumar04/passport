@@ -19,7 +19,7 @@ router.post('/', (req, res, next) => {
     .catch(next)
 })
 
-router.put('/:id', (req, res, next) => {
+router.patch('/:id', (req, res, next) => {
   Factory.findOne({_id: req.params.id}, (err, factory) => {
     if (err) {
       return res.send(err)
