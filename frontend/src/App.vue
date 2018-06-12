@@ -98,8 +98,12 @@ export default {
     updateFactory(data){
       this.createChildren(data.maxRange, data.minRange, data.range, data.children)
       console.log(data)
-      axios.put(this.api_url + data._id)
-      .then(res => this.editFactory = null)
+      axios({
+
+        method: 'put',
+        url: this.api_url + data._id,
+        data: data
+      }).then(res => {this.editFactory = null; console.log(res)})
     },
     createFactory(){
       this.createChildren(this.formData.maxRange, this.formData.minRange, this.formData.range, this.formData.children)

@@ -20,16 +20,23 @@ router.post('/', (req, res, next) => {
 })
 
 router.put('/:id', (req, res, next) => {
-  Factory.findByIdAndUpdate({
-    _id: req.params.id
-  }, req.body).then((factory) => {
-    Factory.findOne({
-      _id: req.params.id
-    }, (ninja) => {
-      res.send(factory)
+  Factory.findOne({_id: req.params.id}, (err, factory) => {
+    if (err) {
+      return res.send(err)
+    }
+
+    for (prop in req.body) {
+      factory[prop] = req.body[prop];
+    }
+
+    factory.save(err => {
+      if (err) {
+        return res.send(err)
+      }
+      res.json({message: 'factory updated'})
     })
   })
-})
+}) 
 
 router.delete('/:id', (req, res, next) => {
   Factory
