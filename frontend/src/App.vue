@@ -6,8 +6,8 @@
       <p id="root">Root</p>
       <ul v-for="(data, i) in api_data" :key="data._id">
       <div v-if="editFactory === data._id">
-        <form id="editForm">
-          <label for="name">Name:</label>
+        <form id="editFactory">
+          <label for="name">Factory Name:</label>
           <input type="text" name="Name" v-model="data.name">
           <label for="minRange">Min Range:</label>
           <input type="text" name="minRange" v-model="data.minRange">
@@ -34,12 +34,12 @@
     </div>
     <div id="form">
       <h2>Add Factory</h2>
-      <form id="createFactory2">
-        <input placeholder="Name" type="text" name="Name" v-model="formData.name">
+      <form id="createFactory">
+        <input placeholder="Factory Name" type="text" name="Name" v-model="formData.name">
         <input placeholder="Min Range" type="text" name="minRange" v-model="formData.minRange">
         <input placeholder="Max Range" type="text" name="maxRange" v-model="formData.maxRange">
-        <input placeholder="Range" type="text" name="range" v-model="formData.range">
-        <button @click.prevent="createFactory">submit</button>
+        <input placeholder="Children Count" type="text" name="range" v-model="formData.range">
+        <button id="submit" @click.prevent="createFactory">submit</button>
       </form>
     </div>
     </div>
@@ -166,14 +166,37 @@ h1{
   margin-bottom: 10px;
 }
 
-#createFactory2{
+#createFactory, #editFactory{
 	display: flex;
 	flex-direction: column;
 	width: 200px;
-	input{
+  label{
+    font-size: 12px;
+    text-transform: uppercase;
+  }
+	input[type=text]{
 		margin: 10px 0;
+    padding: 10px;
+    text-transform: uppercase;
+    font-family: 'Roboto', sans-serif;
+    letter-spacing: 2px;
 	}
+  button{
+    background: #00A896;
+    margin-bottom: 10px;
+    padding: 10px 12px;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: none;
+    outline: none;
+    &:hover{
+      background: darken(#00A896, 10%)
+    }
+  }
 }
+
 #app{
   max-width: 1200px;
   margin: 25px auto;
@@ -188,6 +211,7 @@ h1{
       height: 80vh;
       overflow-y: scroll;
       font-family: 'Roboto', sans-serif;
+      
       
       #root{
         background: #05668D;
