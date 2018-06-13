@@ -1,12 +1,13 @@
 <template>
   <div id="app">
-    <!-- <h1>Passport Challenge</h1> -->
+    <h1>Passport Challenge</h1>
     <div class="container">
       <div id="tree">
       <p id="root">Root</p>
       <ul v-for="(data, i) in api_data" :key="data._id">
       <div v-if="editFactory === data._id">
         <form id="editFactory">
+          <i @click.prevent="editFactory = null" class="close fas fa-times"></i>
           <label for="name">Factory Name:</label>
           <input type="text" name="Name" v-model="data.name">
           <label for="minRange">Min Range:</label>
@@ -14,7 +15,6 @@
           <label for="maxRange">Max Range:</label>
           <input type="text" name="maxRange" v-model="data.maxRange"> 
           <button @click.prevent="updateFactory(data)">update</button>
-          <button @click.prevent="editFactory = null">cancel</button>
         </form>
       </div>
       <div v-else>
@@ -35,10 +35,10 @@
     <div id="form">
       <h2>Add Factory</h2>
       <form id="createFactory">
-        <input placeholder="Factory Name" type="text" name="Name" v-model="formData.name">
-        <input placeholder="Min Range" type="text" name="minRange" v-model="formData.minRange">
-        <input placeholder="Max Range" type="text" name="maxRange" v-model="formData.maxRange">
-        <input placeholder="Children Count" type="text" name="range" v-model="formData.range">
+        <input placeholder="FACTORY NAME" type="text" name="Name" v-model="formData.name">
+        <input placeholder="MIN RANGE" type="text" name="minRange" v-model="formData.minRange">
+        <input placeholder="MAX RANGE" type="text" name="maxRange" v-model="formData.maxRange">
+        <input placeholder="CHILDREN COUNT" type="text" name="range" v-model="formData.range">
         <button id="submit" @click.prevent="createFactory">submit</button>
       </form>
     </div>
@@ -55,7 +55,6 @@ export default {
     return {
       api_url: 'http://localhost:5000/api/',
       api_data: [],
-      invalid: '',
       editFactory: null,
       formData: {
         name: '',
@@ -170,6 +169,15 @@ h1{
 	display: flex;
 	flex-direction: column;
 	width: 200px;
+  padding: 20px 40px;
+  border: 1px solid #000;
+  position: relative;
+  margin-top: 20px;
+  .close{
+    position: absolute;
+    top: 6px;
+    right: 8px;
+  }
   label{
     font-size: 12px;
     text-transform: uppercase;
@@ -177,9 +185,10 @@ h1{
 	input[type=text]{
 		margin: 10px 0;
     padding: 10px;
-    text-transform: uppercase;
     font-family: 'Roboto', sans-serif;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
+    border: 1px black solid;
+    color: #000;
 	}
   button{
     background: #00A896;
@@ -244,6 +253,7 @@ h1{
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      padding: 20px 40px;
     }
   }
 }
