@@ -66,17 +66,6 @@ export default {
     }
   },
   methods: {
-    checkform(){
-      if(this.formData.maxRange < 0 && isNaN){
-        this.invalid = 'enter a number'
-      }
-      if(this.formData.minRange < 0 && isNaN){
-        this.invalid = 'enter a number'
-      }
-      if(this.formData.range < 0 && isNaN){
-        this.invalid = 'enter a number'
-      }
-    },
     createChildren(max, min, range, children){
       for(let i = 0; i < range; i++){
         let num = Math.floor(Math.random() * (parseInt(max) - parseInt(min)) + parseInt(min))
