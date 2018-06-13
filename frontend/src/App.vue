@@ -12,9 +12,7 @@
           <label for="minRange">Min Range:</label>
           <input type="text" name="minRange" v-model="data.minRange">
           <label for="maxRange">Max Range:</label>
-          <input type="text" name="maxRange" v-model="data.maxRange">
-          <label for="range">Child Count:</label>
-          <input type="text" name="range" v-model="data.range">
+          <input type="text" name="maxRange" v-model="data.maxRange"> 
           <button @click.prevent="updateFactory(data)">update</button>
           <button @click.prevent="editFactory = null">cancel</button>
         </form>
@@ -23,8 +21,8 @@
         <li class="factory">
           <span>
             {{data.name}} 
-          <i class="far fa-edit fa-lg" @click="editFactory = data._id"></i>
-          <i class="far fa-trash-alt fa-lg" @click="deleteFactory(data._id, i)"></i>
+          <i class="far fa-edit" style="margin-left:10px" @click="editFactory = data._id"></i>
+          <i class="far fa-trash-alt" @click="deleteFactory(data._id, i)"></i>
            </span> 
           ({{data.minRange}}:{{data.maxRange}})
       </li>
@@ -36,15 +34,11 @@
     </div>
     <div id="form">
       <h2>Add Factory</h2>
-      <form>
-        <label for="name">Name:</label>
-        <input type="text" name="Name" v-model="formData.name">
-        <label for="minRange">Min Range:</label>
-        <input type="text" name="minRange" v-model="formData.minRange">
-        <label for="maxRange">Max Range:</label>
-        <input type="text" name="maxRange" v-model="formData.maxRange">
-        <label for="range">Child Count:</label>
-        <input type="text" name="range" v-model="formData.range">
+      <form id="createFactory2">
+        <input placeholder="Name" type="text" name="Name" v-model="formData.name">
+        <input placeholder="Min Range" type="text" name="minRange" v-model="formData.minRange">
+        <input placeholder="Max Range" type="text" name="maxRange" v-model="formData.maxRange">
+        <input placeholder="Range" type="text" name="range" v-model="formData.range">
         <button @click.prevent="createFactory">submit</button>
       </form>
     </div>
@@ -61,17 +55,29 @@ export default {
     return {
       api_url: 'http://localhost:5000/api/',
       api_data: [],
+      invalid: '',
       editFactory: null,
       formData: {
         name: '',
-        maxRange: 0,
-        minRange: 0,
-        range: 0,
+        maxRange: null,
+        minRange: null,
+        range: null,
         children: []
       }
     }
   },
   methods: {
+    checkform(){
+      if(this.formData.maxRange < 0 && isNaN){
+        this.invalid = 'enter a number'
+      }
+      if(this.formData.minRange < 0 && isNaN){
+        this.invalid = 'enter a number'
+      }
+      if(this.formData.range < 0 && isNaN){
+        this.invalid = 'enter a number'
+      }
+    },
     createChildren(max, min, range, children){
       for(let i = 0; i < range; i++){
         let num = Math.floor(Math.random() * (parseInt(max) - parseInt(min)) + parseInt(min))
@@ -97,7 +103,6 @@ export default {
     },
     updateFactory(data){
       this.createChildren(data.maxRange, data.minRange, data.range, data.children)
-      console.log(data)
       axios({
         method: 'patch',
         url: this.api_url + data._id,
@@ -119,6 +124,13 @@ export default {
         data: this.formData
       }).then(res => {
         this.api_data.push(res.data)
+        this.formData = {
+        name: '',
+        maxRange: null,
+        minRange: null,
+        range: null,
+        children: []
+      }
       })
     }
   },
@@ -153,6 +165,15 @@ li{
 h1{
   margin-bottom: 10px;
 }
+
+#createFactory2{
+	display: flex;
+	flex-direction: column;
+	width: 200px;
+	input{
+		margin: 10px 0;
+	}
+}
 #app{
   max-width: 1200px;
   margin: 25px auto;
@@ -168,7 +189,6 @@ h1{
       overflow-y: scroll;
       font-family: 'Roboto', sans-serif;
       
-
       #root{
         background: #05668D;
         padding: 6px;
@@ -194,10 +214,14 @@ h1{
     }
 
     #form{
-      background: lightblue;
       width: 50%;
-      height: 80vh
+      height: 80vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
   }
 }
+
 </style>
