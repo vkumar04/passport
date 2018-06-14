@@ -8,12 +8,15 @@
       <div v-if="editFactory === data._id">
         <form id="editFactory">
           <i @click.prevent="editFactory = null" class="close fas fa-times"></i>
+          <span>{{ errors.first('Name') }}</span>
+          <span>{{ errors.first('minRange') }}</span>
+          <span>{{ errors.first('maxRange') }}</span>
           <label for="name">Factory Name:</label>
-          <input type="text" name="Name" v-model="data.name">
+          <input v-validate="{required: true}" type="text" name="Name" v-model="data.name">
           <label for="minRange">Min Range:</label>
-          <input type="text" name="minRange" v-model="data.minRange">
+          <input v-validate="{required: true, min_value:0, is_not: formData.maxRange, regex: /^([0-9]+)$/ }" type="text" name="minRange" v-model="data.minRange">
           <label for="maxRange">Max Range:</label>
-          <input type="text" name="maxRange" v-model="data.maxRange"> 
+          <input v-validate="{required: true, min_value:0, is_not: formData.minRange, regex: /^([0-9]+)$/ }" type="text" name="maxRange" v-model="data.maxRange"> 
           <button @click.prevent="updateFactory(data)">update</button>
         </form>
       </div>
@@ -35,11 +38,15 @@
     <div id="form">
       <h2>Add Factory</h2>
       <form id="createFactory">
-        <input placeholder="FACTORY NAME" type="text" name="Name" v-model="formData.name">
-        <input placeholder="MIN RANGE" type="text" name="minRange" v-model="formData.minRange">
-        <input placeholder="MAX RANGE" type="text" name="maxRange" v-model="formData.maxRange">
-        <input placeholder="CHILDREN COUNT" type="text" name="range" v-model="formData.range">
-        <button id="submit" @click.prevent="createFactory">submit</button>
+        <span>{{ errors.first('Name') }}</span>
+        <span>{{ errors.first('minRange') }}</span>
+        <span>{{ errors.first('maxRange') }}</span>
+        <span>{{ errors.first('range') }}</span>
+        <input v-validate="{required: true}" placeholder="FACTORY NAME" type="text" name="Name" v-model="formData.name">
+        <input v-validate="{required: true, min_value:0, is_not: formData.maxRange, regex: /^([0-9]+)$/ }" placeholder="MIN RANGE" type="text" name="minRange" v-model="formData.minRange">
+        <input v-validate="{required: true, min_value:0, is_not: formData.minRange, regex: /^([0-9]+)$/ }" placeholder="MAX RANGE" type="text" name="maxRange" v-model="formData.maxRange">
+        <input v-validate="{required: true, min_value:0, max_value:15, regex: /^([0-9]+)$/ }" placeholder="CHILDREN COUNT" type="text" name="range" v-model="formData.range">
+        <button id="submit" :disabled="isFormDirty" @click.prevent="createFactory">submit</button>
       </form>
     </div>
     </div>
@@ -122,6 +129,11 @@ export default {
       })
     }
   },
+  computed: {
+    isFormDirty() {
+      return Object.keys(this.fields).some(key => this.fields[key].invalid);
+    }
+  },
   created(){
     this.getData()
   }
@@ -152,6 +164,10 @@ li{
 
 h1{
   margin-bottom: 10px;
+}
+
+span {
+  white-space: nowrap;
 }
 
 #createFactory, #editFactory{
@@ -189,8 +205,8 @@ h1{
     letter-spacing: 2px;
     border: none;
     outline: none;
-    &:hover{
-      background: darken(#00A896, 10%)
+    &:disabled{
+      background: darken(#00A896, 40%)
     }
   }
 }
