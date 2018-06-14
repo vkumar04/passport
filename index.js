@@ -9,7 +9,7 @@ const helmet = require('helmet')
 const path = require('path')
 
 const app = express()
-app.use(express.static(__dirname + '/public'))
+app.use(express.static(__dirname + '/public/dist'))
 
 app.use(cors())
 
