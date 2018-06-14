@@ -6,8 +6,10 @@ const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const db = require('./config/db')
 const helmet = require('helmet')
+const path = require('path')
 
 const app = express()
+app.use(express.static('../frontend/'))
 
 app.use(cors())
 
@@ -28,6 +30,10 @@ app.use((err, req, res, next) => {
   res
     .status(422)
     .send({error: err.message})
+})
+
+app.get('/*', (req,res) => {
+  res.sendfile(path.resolve(__dirname, '../frontend/','index.html'))
 })
 //port 3000
 const port = process.env.port || 5000
