@@ -60,7 +60,7 @@ export default {
   name: 'app',
   data () {
     return {
-      api_url: 'http://localhost:5000/api/',
+      api_url: 'https://morning-depths-56546.herokuapp.com/api/',
       api_data: [],
       editFactory: null,
       formData: {
