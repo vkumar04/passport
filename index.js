@@ -9,7 +9,7 @@ const helmet = require('helmet')
 const path = require('path')
 
 const app = express()
-app.use(express.static(__dirname + '/public'))
+app.use(express.static(__dirname + '/public/dist'))
 
 app.use(cors())
 
@@ -36,7 +36,8 @@ app.get('/', (req,res) => {
   res.sendFile(path.join(__dirname + '/pubic/index.html'))
 })
 //port 3000
-const port = process.env.PORT || 5000
+const port = process.env.PORT
+ || 5000
 
 app.listen(port, (req, res) => {
   console.log(`server running on http://localhost:${port}`)
