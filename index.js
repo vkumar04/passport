@@ -9,7 +9,7 @@ const helmet = require('helmet')
 const path = require('path')
 
 const app = express()
-app.use(express.static('../frontend/'))
+app.use(express.static(__dirname + '/public'))
 
 app.use(cors())
 
@@ -32,8 +32,8 @@ app.use((err, req, res, next) => {
     .send({error: err.message})
 })
 
-app.get('/*', (req,res) => {
-  res.sendfile(path.resolve(__dirname, '../frontend/','index.html'))
+app.get('/', (req,res) => {
+  res.sendFile(path.join(__dirname + '/pubic/index.html'))
 })
 //port 3000
 const port = process.env.port || 5000
